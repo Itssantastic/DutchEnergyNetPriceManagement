@@ -41,11 +41,18 @@ timeStampStart  =   "2023-03-21T18"                                             
 timeStampEnd    =   "2023-03-21T19"                                                                 #Will be overrided by current time
 
 #Get current time
-timeStampStart = now.strftime("%Y") + "-" + now.strftime("%m") + "-" + now.strftime("%d") + "T" + str(int(now.strftime("%H"))-1)        #minus one to select the current hour
-timeStampEnd = now.strftime("%Y") + "-" + now.strftime("%m") + "-" + now.strftime("%d") + "T" + str(int(now.strftime("%H"))+0)          #minus one to only select the current hour
+startHour = int(now.strftime("%H"))-1
+if (startHour < 10):
+    startHour = "0" + str(startHour)        #add 0 and make string
+else:
+    startHour = str(startHour)              #make string
+
+timeStampStart = now.strftime("%Y") + "-" + now.strftime("%m") + "-" + now.strftime("%d") + "T" + startHour                             #current time minus one hour to get the previous hour
+timeStampEnd = now.strftime("%Y") + "-" + now.strftime("%m") + "-" + now.strftime("%d") + "T" + now.strftime("%H")                      #current time
 
 #build the URL
 url = baseURL1 + timeStampStart + baseURL2 + timeStampEnd + baseURL3
+# print (url)
 
 #get the reponse json form the api
 response = requests.get(url)
